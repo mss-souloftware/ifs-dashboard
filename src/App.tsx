@@ -17,6 +17,7 @@ import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
 import AddProduct from './pages/Products/Add';
+import AllProducts from './pages/Products/All';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -44,8 +45,8 @@ function App() {
             </>
           }
         />
-        
-         <Route
+
+        <Route
           path="/add-product"
           element={
             <>
@@ -54,6 +55,17 @@ function App() {
             </>
           }
         />
+
+        <Route
+          path="/all-products"
+          element={
+            <>
+              <PageTitle title="All Products | iFeelShy" />
+              <AllProducts />
+            </>
+          }
+        />
+
         <Route
           path="/calendar"
           element={

@@ -1,119 +1,220 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import { Link } from 'react-router-dom';
-import CheckboxOne from '../../components/Checkboxes/CheckboxOne';
+
+const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
+const VERSION = import.meta.env.VITE_BACKEND_API_VERSION;
 
 const AddProduct: React.FC = () => {
+  const [categories, setCategories] = useState<{ id: number; name: string }[]>(
+    [],
+  );
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    price: '',
+    thumbnail: '',
+    categoryId: null as number | null, // Allow multiple categories
+  });
+
+  // Fetch categories on component mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/api/${VERSION}/products/categories`,
+        );
+        const data = await response.json();
+        if (data.status.success) {
+          setCategories(data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Handle input changes
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle category selection
+  const handleCategoryChange = (categoryId: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      categoryId: categoryId, // Directly set the selected category
+    }));
+  };
+
+  // Submit product data
+  const handleSubmit = async () => {
+    if (!formData.categoryId) {
+      alert('Please select a category.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/${VERSION}/products`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          categoryId: formData.categoryId, // Now it's a single number
+          thumbnail: formData.thumbnail,
+          name: formData.name,
+          description: formData.description,
+          price: Number(formData.price),
+        }),
+      });
+
+      const result = await response.json();
+      if (result.status.success) {
+        alert('Product created successfully!');
+      } else {
+        alert(
+          'Failed to create product: ' + (result.message || 'Unknown error'),
+        );
+      }
+    } catch (error) {
+      console.error('Error creating product:', error);
+      alert('Error creating product. Please try again.');
+    }
+  };
+
   return (
     <>
       <Breadcrumb pageName="Add New Product" />
       <div className="flex gap-5 flex-col sm:flex-row">
+        {/* Left Section - Product Form */}
         <div className="flex flex-col gap-5 w-9/12">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark py-4 px-6.5">
+            {/* Product Name */}
             <div>
               <label className="mb-3 block text-black dark:text-white">
                 Product Title
               </label>
               <input
                 type="text"
-                placeholder="Default Input"
-                className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                placeholder="Product Name"
+                className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
               />
             </div>
+            {/* Product Description */}
             <div className="mt-4">
               <label className="mb-3 block text-black dark:text-white">
                 Product Description
               </label>
               <textarea
                 rows={6}
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
                 placeholder="Product Description"
-                className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
               ></textarea>
             </div>
-          </div>
-          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark py-4 px-6.5">
-            <div className="mb-4">
-              <label className="mb-3 block text-black dark:text-white">
-                Product Uses
-              </label>
-              <textarea
-                rows={6}
-                placeholder="Product Uses"
-                className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-              ></textarea>
-            </div>
-          </div>
-
-          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark py-4 px-6.5">
+            {/* Product Price */}
             <div>
               <label className="mb-3 block text-black dark:text-white">
-                Faq 1
+                Product Price
+              </label>
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleInputChange}
+                placeholder="9.99$"
+                className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+              />
+            </div>
+            {/* Product Thumbnail */}
+            <div>
+              <label className="mb-3 block text-black dark:text-white">
+                Thumbnail URL
               </label>
               <input
                 type="text"
-                placeholder="Faq 1"
-                className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 mb-4 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                name="thumbnail"
+                value={formData.thumbnail}
+                onChange={handleInputChange}
+                placeholder="Image URL"
+                className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
               />
-              <textarea
-                rows={6}
-                placeholder="Faq 1 Answer"
-                className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-              ></textarea>
             </div>
           </div>
         </div>
+
+        {/* Right Section - Category & Actions */}
         <div className="flex flex-col gap-9 w-1/4">
+          {/* Category Selection */}
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
                 Product Categories
               </h3>
             </div>
-            <div className="flex flex-col gap-5.5 p-6.5">
-              <CheckboxOne />
-              <CheckboxOne />
-              <CheckboxOne />
+            <div className="flex flex-col gap-3 p-5">
+              {categories.map((category) => (
+                <label
+                  key={category.id}
+                  htmlFor={`category-${category.id}`}
+                  className={`flex items-center gap-3 rounded-lg border p-3 cursor-pointer transition 
+        ${
+          formData.categoryId === category.id
+            ? 'border-primary bg-primary/10 text-primary'
+            : 'border-gray-300 bg-white text-gray-700 hover:border-primary'
+        } dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-primary`}
+                >
+                  <input
+                    type="radio"
+                    id={`category-${category.id}`}
+                    name="category"
+                    value={category.id}
+                    checked={formData.categoryId === category.id}
+                    onChange={() => handleCategoryChange(category.id)}
+                    className="hidden"
+                  />
+                  <div
+                    className={`h-5 w-5 flex items-center justify-center rounded-full border-2 transition-all
+          ${
+            formData.categoryId === category.id
+              ? 'border-primary bg-primary'
+              : 'border-gray-400 bg-white'
+          }`}
+                  >
+                    {formData.categoryId === category.id && (
+                      <div className="h-2.5 w-2.5 rounded-full bg-white"></div>
+                    )}
+                  </div>
+                  <span className="text-sm font-medium">{category.name}</span>
+                </label>
+              ))}
             </div>
           </div>
-          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-              <h3 className="font-medium text-black dark:text-white">
-                Product Brand
-              </h3>
-            </div>
-            <div className="flex flex-col gap-5.5 p-6.5">
-              <CheckboxOne />
-              <CheckboxOne />
-              <CheckboxOne />
-            </div>
-          </div>
-          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-              <h3 className="font-medium text-black dark:text-white">
-                Product Type
-              </h3>
-            </div>
-            <div className="flex flex-col gap-5.5 p-6.5">
-              <CheckboxOne />
-              <CheckboxOne />
-              <CheckboxOne />
-            </div>
-          </div>
+
+          {/* Submit Button */}
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark py-4 px-6.5">
-            <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-              <h3 className="font-medium text-black dark:text-white">
-                Actions
-              </h3>
-            </div>
             <div className="text-center">
-              <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
+              <button
+                onClick={handleSubmit}
+                className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
+              >
                 Publish
               </button>
               <Link
                 to="#"
-                className="text-center text-sm text-primary mt-2 hover:underline"
+                className="text-center text-sm text-primary mt-4 inline-block hover:underline"
               >
-                Delete Prodct
+                Delete Product
               </Link>
             </div>
           </div>
