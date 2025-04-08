@@ -18,6 +18,7 @@ import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
 import AddProduct from './pages/Products/Add';
 import AllProducts from './pages/Products/All';
+import AddCategory from './pages/Category/Add';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -62,6 +63,16 @@ function App() {
             <>
               <PageTitle title="All Products | iFeelShy" />
               <AllProducts />
+            </>
+          }
+        />
+
+        <Route
+          path="/add-category"
+          element={
+            <>
+              <PageTitle title="Add New Category | iFeelShy" />
+              <AddCategory />
             </>
           }
         />
