@@ -34,6 +34,12 @@ const AddCategory: React.FC = () => {
 
     // Submit product data
     const handleSubmit = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('You are not logged in. Please sign in first.');
+            return;
+        }
+
         if (!formData.type) {
             alert('Please select a category.');
             return;
@@ -44,6 +50,7 @@ const AddCategory: React.FC = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     name: formData.name,
@@ -119,17 +126,17 @@ const AddCategory: React.FC = () => {
                         </div>
 
                         {/* Consultation Checkbox */}
-                        <div className="mt-4">
-                            <label className="mb-3 block text-black dark:text-white">
-                                Need Consultation?
-                            </label>
+                        <div className="mt-4 flex items-center">
                             <input
                                 type="checkbox"
                                 name="needConsultation"
                                 checked={formData.needConsultation}
                                 onChange={handleConsultationChange}
-                                className="w-5 h-5 accent-primary"
+                                className="w-3 h-3 accent-primary"
                             />
+                            <label className="ml-2 block text-black dark:text-white">
+                                Need Consultation?
+                            </label>
                         </div>
                     </div>
                 </div>

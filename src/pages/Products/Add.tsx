@@ -15,6 +15,7 @@ const AddProduct: React.FC = () => {
     price: '',
     thumbnail: '',
     categoryId: null as number | null, // Allow multiple categories
+    directCheckout: false,
   });
 
   // Fetch categories on component mount
@@ -51,8 +52,19 @@ const AddProduct: React.FC = () => {
     }));
   };
 
+  // Handle directcheckout checkbox
+  const handleDirectCheckout = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, directCheckout: e.target.checked });
+  };
+
   // Submit product data
   const handleSubmit = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('You are not logged in. Please sign in first.');
+      return;
+    }
+
     if (!formData.categoryId) {
       alert('Please select a category.');
       return;
@@ -63,6 +75,7 @@ const AddProduct: React.FC = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           categoryId: formData.categoryId, // Now it's a single number
@@ -70,6 +83,7 @@ const AddProduct: React.FC = () => {
           name: formData.name,
           description: formData.description,
           price: Number(formData.price),
+          directCheckout: Boolean(formData.directCheckout),
         }),
       });
 
@@ -150,6 +164,20 @@ const AddProduct: React.FC = () => {
                 className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
               />
             </div>
+
+            {/* Direct Checkbox */}
+            <div className="mt-4 flex items-center">
+              <input
+                type="checkbox"
+                name="needConsultation"
+                checked={formData.directCheckout}
+                onChange={handleDirectCheckout}
+                className="w-3 h-3 accent-primary"
+              />
+              <label className="ml-2 block text-black dark:text-white">
+                Direct Checkout
+              </label>
+            </div>
           </div>
         </div>
 
@@ -168,11 +196,10 @@ const AddProduct: React.FC = () => {
                   key={category.id}
                   htmlFor={`category-${category.id}`}
                   className={`flex items-center gap-3 rounded-lg border p-3 cursor-pointer transition 
-        ${
-          formData.categoryId === category.id
-            ? 'border-primary bg-primary/10 text-primary'
-            : 'border-gray-300 bg-white text-gray-700 hover:border-primary'
-        } dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-primary`}
+        ${formData.categoryId === category.id
+                      ? 'border-primary bg-primary/10 text-primary'
+                      : 'border-gray-300 bg-white text-gray-700 hover:border-primary'
+                    } dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-primary`}
                 >
                   <input
                     type="radio"
@@ -185,11 +212,10 @@ const AddProduct: React.FC = () => {
                   />
                   <div
                     className={`h-5 w-5 flex items-center justify-center rounded-full border-2 transition-all
-          ${
-            formData.categoryId === category.id
-              ? 'border-primary bg-primary'
-              : 'border-gray-400 bg-white'
-          }`}
+          ${formData.categoryId === category.id
+                        ? 'border-primary bg-primary'
+                        : 'border-gray-400 bg-white'
+                      }`}
                   >
                     {formData.categoryId === category.id && (
                       <div className="h-2.5 w-2.5 rounded-full bg-white"></div>
