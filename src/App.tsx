@@ -19,6 +19,7 @@ import DefaultLayout from './layout/DefaultLayout';
 import AddProduct from './pages/Products/Add';
 import AllProducts from './pages/Products/All';
 import AddCategory from './pages/Category/Add';
+import AllCategory from './pages/Category/All';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -85,6 +86,16 @@ function App() {
               <>
                 <PageTitle title="Add New Category | iFeelShy" />
                 <AddCategory />
+              </>
+            }
+          />
+
+          <Route
+            path="/all-categories"
+            element={
+              <>
+                <PageTitle title="All Categories | iFeelShy" />
+                <AllCategory />
               </>
             }
           />
