@@ -20,6 +20,11 @@ import AddProduct from './pages/Products/Add';
 import AllProducts from './pages/Products/All';
 import AddCategory from './pages/Category/Add';
 import AllCategory from './pages/Category/All';
+import EditProduct from './pages/Products/Edit';
+import EditCategoryPage from './pages/Category/Edit';
+import AddBlogCategoryPage from './pages/Blog/Category/Add';
+import EditBlogCategoryPage from './pages/Blog/Category/Edit';
+import AllBlogCategoriesPage from './pages/Blog/Category/All';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -81,6 +86,16 @@ function App() {
           />
 
           <Route
+            path="/products/edit/:id"
+            element={
+              <>
+                <PageTitle title="Edit Product | iFeelShy" />
+                <EditProduct />
+              </>
+            }
+          />
+
+          <Route
             path="/add-category"
             element={
               <>
@@ -99,6 +114,45 @@ function App() {
               </>
             }
           />
+
+          <Route
+            path="/categories/edit/:id"
+            element={
+              <>
+                <PageTitle title="Edit Category | iFeelShy" />
+                <EditCategoryPage />
+              </>
+            }
+          />
+
+          <Route
+            path="/blog/all-categories"
+            element={
+              <>
+                <PageTitle title="All Categories | iFeelShy" />
+                <AllBlogCategoriesPage />
+              </>
+            }
+          />
+          <Route
+            path="/blog/add-category"
+            element={
+              <>
+                <PageTitle title="Add New Category | iFeelShy" />
+                <AddBlogCategoryPage />
+              </>
+            }
+          />
+          <Route
+            path="/blog/edit-category/:categoryId"
+            element={
+              <>
+                <PageTitle title="Edit Category | iFeelShy" />
+                <EditBlogCategoryPage />
+              </>
+            }
+          />
+
 
           <Route
             path="/calendar"
