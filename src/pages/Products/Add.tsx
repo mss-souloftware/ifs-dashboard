@@ -14,7 +14,6 @@ const AddProduct: React.FC = () => {
     thumbnail: '',
     categoryId: null as number | null,
     directCheckout: false,
-    consultationQuestions: [] as any[],
   });
 
   useEffect(() => {
@@ -47,49 +46,6 @@ const AddProduct: React.FC = () => {
     setFormData({ ...formData, directCheckout: e.target.checked });
   };
 
-  const handleQuestionChange = (index: number, value: string) => {
-    const updatedQuestions = [...formData.consultationQuestions];
-    updatedQuestions[index].questionText = value;
-    setFormData({ ...formData, consultationQuestions: updatedQuestions });
-  };
-
-  const handleAddQuestion = () => {
-    setFormData({
-      ...formData,
-      consultationQuestions: [
-        ...formData.consultationQuestions,
-        {
-          questionText: '',
-          answers: [
-            {
-              text: '',
-              isCorrect: false,
-              message: '',
-              followUpQuestions: [],
-            },
-          ],
-        },
-      ],
-    });
-  };
-
-  const handleAnswerChange = (qIndex: number, aIndex: number, key: string, value: any) => {
-    const updatedQuestions = [...formData.consultationQuestions];
-    updatedQuestions[qIndex].answers[aIndex][key] = value;
-    setFormData({ ...formData, consultationQuestions: updatedQuestions });
-  };
-
-  const handleAddAnswer = (qIndex: number) => {
-    const updatedQuestions = [...formData.consultationQuestions];
-    updatedQuestions[qIndex].answers.push({
-      text: '',
-      isCorrect: false,
-      message: '',
-      followUpQuestions: [],
-    });
-    setFormData({ ...formData, consultationQuestions: updatedQuestions });
-  };
-
   const handleSubmit = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -116,7 +72,6 @@ const AddProduct: React.FC = () => {
           description: formData.description,
           price: Number(formData.price),
           directCheckout: Boolean(formData.directCheckout),
-          consultationQuestions: formData.consultationQuestions,
         }),
       });
 
@@ -192,50 +147,6 @@ const AddProduct: React.FC = () => {
               />
               <label className="ml-2 block text-black dark:text-white">Consultant Product?</label>
             </div>
-            {formData.directCheckout && (
-              <div className="mt-6">
-                <h4 className="text-lg font-medium text-black dark:text-white mb-2">Consultation Questions</h4>
-                {formData.consultationQuestions.map((q, qIndex) => (
-                  <div key={qIndex} className="mb-4 p-4 border rounded">
-                    <input
-                      type="text"
-                      placeholder="Question text"
-                      value={q.questionText}
-                      onChange={(e) => handleQuestionChange(qIndex, e.target.value)}
-                      className="mb-2 w-full rounded border px-3 py-2"
-                    />
-                    {q.answers.map((a, aIndex) => (
-                      <div key={aIndex} className="mb-3 pl-4 border-l">
-                        <input
-                          type="text"
-                          placeholder="Answer text"
-                          value={a.text}
-                          onChange={(e) => handleAnswerChange(qIndex, aIndex, 'text', e.target.value)}
-                          className="mb-1 w-full rounded border px-3 py-1"
-                        />
-                        <input
-                          type="text"
-                          placeholder="Message"
-                          value={a.message}
-                          onChange={(e) => handleAnswerChange(qIndex, aIndex, 'message', e.target.value)}
-                          className="mb-1 w-full rounded border px-3 py-1"
-                        />
-                        <label className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            checked={a.isCorrect}
-                            onChange={(e) => handleAnswerChange(qIndex, aIndex, 'isCorrect', e.target.checked)}
-                          />
-                          Correct answer
-                        </label>
-                      </div>
-                    ))}
-                    <button onClick={() => handleAddAnswer(qIndex)} className="text-sm text-primary mt-1">+ Add Answer</button>
-                  </div>
-                ))}
-                <button onClick={handleAddQuestion} className="text-sm text-primary mt-2">+ Add Question</button>
-              </div>
-            )}
           </div>
         </div>
 
