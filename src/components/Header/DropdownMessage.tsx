@@ -19,15 +19,15 @@ const DropdownMessage = () => {
             setNotifying(false);
             setDropdownOpen(!dropdownOpen);
           }}
-          className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary dark:border-strokedark dark:bg-meta-4 dark:text-white"
+          className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-[#30BFAC] dark:border-strokedark dark:bg-meta-4 dark:text-white"
           to="#"
         >
           <span
-            className={`absolute -top-0.5 -right-0.5 z-1 h-2 w-2 rounded-full bg-meta-1 ${
+            className={`absolute -top-0.5 -right-0.5 z-1 h-2 w-2 rounded-full bg-[#30BFAC] ${
               notifying === false ? 'hidden' : 'inline'
             }`}
           >
-            <span className="absolute -z-1 inline-flex h-full w-full animate-ping rounded-full bg-meta-1 opacity-75"></span>
+            <span className="absolute -z-1 inline-flex h-full w-full animate-ping rounded-full bg-[#30BFAC] opacity-75"></span>
           </span>
 
           <svg

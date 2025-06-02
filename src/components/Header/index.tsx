@@ -66,7 +66,7 @@ const Header = (props: {
             <div className="relative">
               <button className="absolute left-0 top-1/2 -translate-y-1/2">
                 <svg
-                  className="fill-body hover:fill-primary dark:fill-bodydark dark:hover:fill-primary"
+                  className="fill-body hover:fill-[#30BFAC] dark:fill-bodydark dark:hover:fill-[#30BFAC]"
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"

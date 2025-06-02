@@ -148,7 +148,7 @@ const FormLayout = () => {
                     <p>Remember me</p>
                   </label>
 
-                  <Link to="#" className="text-sm text-primary hover:underline">
+                  <Link to="#" className="text-sm text-[#30BFAC] hover:underline">
                     Forget password?
                   </Link>
                 </div>

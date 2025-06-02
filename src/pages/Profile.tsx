@@ -132,7 +132,7 @@ const Profile = () => {
               <div className="flex items-center justify-center gap-3.5">
                 <Link
                   to="#"
-                  className="hover:text-primary"
+                  className="hover:text-[#30BFAC]"
                   aria-label="social-icon"
                 >
                   <svg
@@ -158,7 +158,7 @@ const Profile = () => {
                 </Link>
                 <Link
                   to="#"
-                  className="hover:text-primary"
+                  className="hover:text-[#30BFAC]"
                   aria-label="social-icon"
                 >
                   <svg
@@ -189,7 +189,7 @@ const Profile = () => {
                 </Link>
                 <Link
                   to="#"
-                  className="hover:text-primary"
+                  className="hover:text-[#30BFAC]"
                   aria-label="social-icon"
                 >
                   <svg
@@ -220,7 +220,7 @@ const Profile = () => {
                 </Link>
                 <Link
                   to="#"
-                  className="hover:text-primary"
+                  className="hover:text-[#30BFAC]"
                   aria-label="social-icon"
                 >
                   <svg
@@ -246,7 +246,7 @@ const Profile = () => {
                 </Link>
                 <Link
                   to="#"
-                  className="hover:text-primary"
+                  className="hover:text-[#30BFAC]"
                   aria-label="social-icon"
                 >
                   <svg

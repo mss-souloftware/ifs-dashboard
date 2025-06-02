@@ -62,7 +62,16 @@ const AddCategory: React.FC = () => {
       const result = await res.json();
       if (result.status?.success) {
         alert('Category created!');
-        // Optionally reset form here
+        // Reset formData
+        setFormData({
+          name: '',
+          shortDescription: '',
+          longDescription: '',
+          needConsultation: false,
+          type: '' as typeof formData.type,
+        });
+
+        setConsultationQuestions([]);
       } else {
         alert('Failed: ' + result.message);
       }
@@ -373,7 +382,7 @@ const AddCategory: React.FC = () => {
                   className={`flex items-center gap-3 rounded-lg border p-3 cursor-pointer 
                   ${
                     formData.type === category
-                      ? 'border-primary bg-primary/10 text-primary'
+                      ? 'border-primary bg-primary/10 text-[#30BFAC]'
                       : 'border-gray-300'
                   }
                   `}
@@ -419,7 +428,7 @@ const AddCategory: React.FC = () => {
             </button>
             <Link
               to="#"
-              className="text-center text-sm text-primary mt-4 inline-block hover:underline"
+              className="text-center text-sm text-[#30BFAC] mt-4 inline-block hover:underline"
             >
               Delete Product
             </Link>

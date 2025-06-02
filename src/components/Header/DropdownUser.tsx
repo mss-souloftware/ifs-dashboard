@@ -50,7 +50,7 @@ const DropdownUser = () => {
             <li>
               <Link
                 to="/profile"
-                className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+                className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-[#30BFAC] lg:text-base"
               >
                 <svg
                   className="fill-current"
@@ -75,7 +75,7 @@ const DropdownUser = () => {
             <li>
               <Link
                 to="#"
-                className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+                className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-[#30BFAC] lg:text-base"
               >
                 <svg
                   className="fill-current"
@@ -96,7 +96,7 @@ const DropdownUser = () => {
             <li>
               <Link
                 to="/settings"
-                className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+                className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-[#30BFAC] lg:text-base"
               >
                 <svg
                   className="fill-current"
@@ -119,7 +119,7 @@ const DropdownUser = () => {
               </Link>
             </li>
           </ul>
-          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-[#30BFAC] lg:text-base">
             <svg
               className="fill-current"
               width="22"

@@ -237,10 +237,10 @@ const EditProduct: React.FC = () => {
                                                 </label>
                                             </div>
                                         ))}
-                                        <button onClick={() => handleAddAnswer(qIndex)} className="text-sm text-primary mt-1">+ Add Answer</button>
+                                        <button onClick={() => handleAddAnswer(qIndex)} className="text-sm text-[#30BFAC] mt-1">+ Add Answer</button>
                                     </div>
                                 ))}
-                                <button onClick={handleAddQuestion} className="text-sm text-primary mt-2">+ Add Question</button>
+                                <button onClick={handleAddQuestion} className="text-sm text-[#30BFAC] mt-2">+ Add Question</button>
                             </div>
                         )}
                     </div>
@@ -253,7 +253,7 @@ const EditProduct: React.FC = () => {
                         </div>
                         <div className="flex flex-col gap-3 p-5">
                             {categories.map((category) => (
-                                <label key={category.id} htmlFor={`category-${category.id}`} className={`flex items-center gap-3 rounded-lg border p-3 cursor-pointer transition ${formData.categoryId === category.id ? 'border-primary bg-primary/10 text-primary' : 'border-gray-300 bg-white text-gray-700 hover:border-primary'} dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-primary`}>
+                                <label key={category.id} htmlFor={`category-${category.id}`} className={`flex items-center gap-3 rounded-lg border p-3 cursor-pointer transition ${formData.categoryId === category.id ? 'border-primary bg-primary/10 text-[#30BFAC]' : 'border-gray-300 bg-white text-gray-700 hover:border-primary'} dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-primary`}>
                                     <input
                                         type="radio"
                                         id={`category-${category.id}`}

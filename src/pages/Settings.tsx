@@ -227,10 +227,10 @@ const Settings = () => {
                         Edit your photo
                       </span>
                       <span className="flex gap-2.5">
-                        <button className="text-sm hover:text-primary">
+                        <button className="text-sm hover:text-[#30BFAC]">
                           Delete
                         </button>
-                        <button className="text-sm hover:text-primary">
+                        <button className="text-sm hover:text-[#30BFAC]">
                           Update
                         </button>
                       </span>
@@ -276,7 +276,7 @@ const Settings = () => {
                         </svg>
                       </span>
                       <p>
-                        <span className="text-primary">Click to upload</span> or
+                        <span className="text-[#30BFAC]">Click to upload</span> or
                         drag and drop
                       </p>
                       <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
